@@ -1,0 +1,10 @@
+
+-- ToyProject > dml.sql
+
+-- ?šŒ?›
+
+select * from vwBoard;
+
+update tblBoard set regdate = regdate - 1 where seq <= 2;
+
+commit;

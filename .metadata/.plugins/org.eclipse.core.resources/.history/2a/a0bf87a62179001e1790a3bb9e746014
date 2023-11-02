@@ -1,0 +1,28 @@
+package com.test.toy.board;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import com.test.toy.DBUtil;
+
+public class Dummy {
+	
+	public static void main(String[] args) {
+		
+		try {
+			
+			Connection conn = null;
+			PreparedStatement stat = null;
+			
+			conn = DBUtil.open();
+			
+			String sql = "";
+			
+			
+		} catch (Exception e) {
+			System.out.println("Dummy.main()");
+			e.printStackTrace();
+		}
+		
+	}
+}
