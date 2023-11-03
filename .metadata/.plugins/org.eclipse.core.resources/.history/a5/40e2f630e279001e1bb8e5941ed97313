@@ -1,0 +1,9 @@
+package com.test.toy.board.model;
+
+public class CommentDTO {
+	private String seq;
+	private String content;
+	private String regdate;
+	private String id;
+	private String bseq;
+}

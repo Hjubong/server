@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import com.test.toy.DBUtil;
 import com.test.toy.board.model.BoardDTO;
+import com.test.toy.board.model.CommentDTO;
 
 public class BoardDAO {
 
@@ -46,14 +47,16 @@ public class BoardDAO {
 
 		// queryNoParamListReturn
 		try {
-			
+
 			String where = "";
-			
-			if(map.get("search").equals("y")) {
+
+			if (map.get("search").equals("y")) {
 				where = String.format("where %s like '%%%s%%'", map.get("column"), map.get("word"));
 			}
 
-			String sql = String.format("select * from (select a.*, rownum as rnum from vwBoard a %s) where rnum between %s and %s", where, map.get("begin"), map.get("end"));
+			String sql = String.format(
+					"select * from (select a.*, rownum as rnum from vwBoard a %s) where rnum between %s and %s", where,
+					map.get("begin"), map.get("end"));
 
 			stat = conn.createStatement();
 			rs = stat.executeQuery(sql);
@@ -62,7 +65,7 @@ public class BoardDAO {
 
 			while (rs.next()) {
 
-				BoardDTO dto = new BoardDTO();
+				BoardDTO dto = new BoardDTO();		
 
 				dto.setSeq(rs.getString("seq"));
 				dto.setSubject(rs.getString("subject"));
@@ -71,6 +74,7 @@ public class BoardDAO {
 				dto.setReadcount(rs.getInt("readcount"));
 				dto.setName(rs.getString("name"));
 				dto.setIsnew(rs.getInt("isnew"));
+				dto.setCcnt(rs.getInt("ccnt"));
 
 				list.add(dto);
 			}
@@ -157,7 +161,7 @@ public class BoardDAO {
 	}
 
 	public int del(String seq) {
-		
+
 		try {
 
 			String sql = "delete from tblBoard where seq =?";
@@ -170,12 +174,12 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return 0;
 	}
 
 	public int getTotalCount() {
-		
+
 		try {
 
 			String sql = "select count(*) as cnt from tblBoard";
@@ -191,7 +195,122 @@ public class BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return 0;
+	}
+
+	public int addComment(CommentDTO dto) {
+
+		// queryParamNoReturn
+		try {
+
+			String sql = "insert into tblComment (seq, content, regdate, id, bseq) values (seqComment.nextVal, ?, default, ?, ?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getContent());
+			pstat.setString(2, dto.getId());
+			pstat.setString(3, dto.getBseq());
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	public ArrayList<CommentDTO> listComment(String bseq) {
+		
+		try {
+			
+			String sql = "select c.*, (select name from tblUser where id = c.id) as name from tblComment c where bseq = ? order by seq desc";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, bseq);
+			
+			rs = pstat.executeQuery();	
+			
+			ArrayList<CommentDTO> list = new ArrayList<CommentDTO>();
+			
+			while (rs.next()) {
+				
+				CommentDTO dto = new CommentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setContent(rs.getString("content"));
+				dto.setId(rs.getString("id"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setBseq(rs.getString("bseq"));
+				
+				dto.setName(rs.getString("name"));
+				
+				list.add(dto);
+			}	
+			
+			return list;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public int delComment(String seq) {
+		
+		try {
+
+			String sql = "delete from tblComment where seq =?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	public void delCommentAll(String seq) {
+		
+		try {
+
+			String sql = "delete from tblComment where bseq = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+
+public int editComment(CommentDTO dto) {
+		
+		//queryParamNoReturn
+		try {
+
+			String sql = "update tblComment set content = ? where seq = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getContent());
+			pstat.setString(2, dto.getSeq());
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return 0;
 	}
+
 }

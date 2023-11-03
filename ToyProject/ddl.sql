@@ -49,7 +49,8 @@ select
     case
         when (sysdate - regdate) < 1 then 1
         else 0
-    end as isnew
+    end as isnew,
+    (select count(*) from tblComment where bseq = tblBoard.seq) as ccnt
 from tblBoard order by seq desc;
 
 
@@ -60,7 +61,19 @@ select * from (select a.*, rownum as rnum from vwBoard a) where rnum between 21 
 
 
 
+--댓글
+create table tblComment(
+    seq number not null,
+    content varchar2(1000) not null,
+    regdate date default sysdate not null,
+    id varchar2(50) not null,       --회원
+    bseq number not null,           --부모글번호
+    constraint tblcomment_pk primary key(seq),
+     constraint tblcomment_fk_id foreign key(id) references tblUser(id),
+      constraint tblcomment_fk_bseq foreign key(bseq) references tblBoard(seq)
+);
 
+create sequence seqComment;
 
 
 
