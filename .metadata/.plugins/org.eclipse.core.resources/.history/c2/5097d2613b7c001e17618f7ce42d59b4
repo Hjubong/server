@@ -1,0 +1,14 @@
+package com.test.toy.map;
+
+@WebServlet("/map/ex01.do")
+public class Ex extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		//Ex.java
+
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/map/ex01.jsp");
+		dispatcher.forward(req, resp);
+	}
+}

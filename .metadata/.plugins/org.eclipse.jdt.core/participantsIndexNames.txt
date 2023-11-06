@@ -1,4 +1,6 @@
 INDEX VERSION 1.131
+C:\class\code\server\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2894580071.index
+\ToyProject\src\main\java
 C:\class\code\server\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3839954045.index
 \Memo\src\main\java
 C:\class\code\server\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2707467932.index

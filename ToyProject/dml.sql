@@ -1,10 +1,10 @@
 
 -- ToyProject > dml.sql
 
--- íšŒì›
+-- ?šŒ?›
 insert into tblUser (id, pw, name, email, lv, pic, intro, ing)
-    values ('hong', '1111', 'í™ê¸¸ë™', 'hong@gmail.com'
-        , '1', default,  'ìë°”ë¥¼ ê³µë¶€í•˜ëŠ” í•™ìƒì…ë‹ˆë‹¤.', default);
+    values ('hong', '1111', '?™ê¸¸ë™', 'hong@gmail.com'
+        , '1', default,  '?ë°”ë?? ê³µë??•˜?Š” ?•™?ƒ?…?‹ˆ?‹¤.', default);
         
 select * from tblUser;
 
@@ -15,7 +15,7 @@ commit;
 
 
 insert into tblBoard (seq, subject, content, regdate, readcount, id)
-    values (seqBoard.nextVal, 'ê²Œì‹œíŒì…ë‹ˆë‹¤.', 'ë‚´ìš©ì…ë‹ˆë‹¤.', default, default, 'hong');
+    values (seqBoard.nextVal, 'ê²Œì‹œ?Œ?…?‹ˆ?‹¤.', '?‚´?š©?…?‹ˆ?‹¤.', default, default, 'hong');
 
 select * from tblBoard;
 
@@ -33,3 +33,4 @@ commit;
 
 select * from tblUser;
 
+select * from tblMarker;

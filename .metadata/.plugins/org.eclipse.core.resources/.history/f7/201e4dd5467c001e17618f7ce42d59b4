@@ -1,0 +1,33 @@
+package com.test.toy.map;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/map/addmarker.do")
+public class AddMarker extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		//AddMarker.java
+		
+		//1.
+		String lat = req.getParameter("lat");
+		String lng = req.getParameter("lng");
+		
+		//2.
+		MapDAO dao = new MapDAO();
+		
+		MapDTO dto = new MapDTO();
+		dto.setLat(lat);
+		dto.setLng(lng);
+		
+		int result = dao.add(dto);
+
+	}
+}
