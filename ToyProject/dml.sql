@@ -34,3 +34,5 @@ commit;
 select * from tblUser;
 
 select * from tblMarker;
+
+select * from tblPlace;
